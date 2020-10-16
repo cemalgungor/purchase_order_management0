@@ -3,6 +3,7 @@ package com.cemal.purchase_order_menagement.entity;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,9 +26,7 @@ public class Customer {
     @Enumerated(EnumType.STRING)
     @Column(name = "order_authority")
     private OrderAuthority orderAuthority;
-    @OneToMany(cascade = {CascadeType.ALL},fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id", referencedColumnName = "id")
-    private List<Order> order_id;
+
 
 
 }

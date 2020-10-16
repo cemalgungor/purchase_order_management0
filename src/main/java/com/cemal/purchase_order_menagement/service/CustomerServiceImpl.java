@@ -22,19 +22,19 @@ public class CustomerServiceImpl implements  ICustomerService {
     @Transactional
     public Customer saveCustomer(Customer customer) {
         customer.setName(customer.getName());
-        customer.setOrder_id(customer.getOrder_id());
+
         if(customer.getOrderAuthority().equals(OrderAuthority.HAS)) {
             customer.setOrderAuthority(OrderAuthority.HAS);
         }
         customer.setOrderAuthority(OrderAuthority.HAS_NOT);
-
+        customer.setId(customer.getId());
         return customerRepo.save(customer);
     }
 
     @Override
     public Customer updateCustomer(Customer customer) {
         Customer customer1=customerRepo.getOne(customer.getId());
-        customer.setOrder_id(customer.getOrder_id());
+
         customer1.setName(customer.getName());
         customer1.setId(customer.getId());
         customer.setOrderAuthority(customer.getOrderAuthority());
@@ -50,6 +50,11 @@ public class CustomerServiceImpl implements  ICustomerService {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public Customer getOneCustomer(Long id) {
+       return customerRepo.getOne(id);
     }
 
     @Override

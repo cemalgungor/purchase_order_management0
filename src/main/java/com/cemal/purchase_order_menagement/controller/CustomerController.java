@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/customer")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CustomerController {
     private final ICustomerService customerService ;
 
@@ -20,8 +21,13 @@ public class CustomerController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Customer>> getAllTasks() {
+    public ResponseEntity<List<Customer>> getAllCustomer() {
         List<Customer> customer = customerService.getAllCustomer();
+        return ResponseEntity.ok(customer);
+    }
+    @GetMapping("/oneCustomer/{id}")
+    public ResponseEntity<Customer> getOneCustomer(@PathVariable(value = "id", required = true) Long id) {
+        Customer customer = customerService.getOneCustomer(id);
         return ResponseEntity.ok(customer);
     }
 
