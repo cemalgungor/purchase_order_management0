@@ -2,6 +2,7 @@ package com.cemal.purchase_order_menagement.entity;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,7 +20,8 @@ public class Order {
     private Long id;
     @Column(name = "order_name")
     private String orderName;
-    @ManyToOne(cascade = {CascadeType.ALL},fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer_id;
 
