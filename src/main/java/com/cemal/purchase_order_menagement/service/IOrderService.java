@@ -1,12 +1,13 @@
 package com.cemal.purchase_order_menagement.service;
 
+import com.cemal.purchase_order_menagement.Dto.OrderDto;
 import com.cemal.purchase_order_menagement.entity.Order;
 
 import java.util.List;
 
 public interface IOrderService {
-    Order saveOrder(Long customer_id,Order order);
+    Order saveOrder(Order order);
     Order updateCustomer(Long customer_id,Order order);
-    Boolean deleteCustomer(Long id);
+    Boolean deleteByOrderId(Long id);
     List<Order> getAllOrder();
 }

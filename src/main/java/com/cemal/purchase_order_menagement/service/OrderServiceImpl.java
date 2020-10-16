@@ -1,9 +1,11 @@
 package com.cemal.purchase_order_menagement.service;
 
+import com.cemal.purchase_order_menagement.Dto.OrderDto;
 import com.cemal.purchase_order_menagement.entity.Customer;
 import com.cemal.purchase_order_menagement.entity.Order;
 import com.cemal.purchase_order_menagement.repository.ICustomerRepo;
 import com.cemal.purchase_order_menagement.repository.IOrderRepo;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -13,23 +15,25 @@ import java.util.Optional;
 @Service
 public class OrderServiceImpl implements  IOrderService {
     private final IOrderRepo orderRepo;
-    private final ICustomerRepo customerRepo;
+    private final CustomerServiceImpl customerService;
 
-    public OrderServiceImpl(IOrderRepo orderRepo, ICustomerRepo customerRepo) {
+    public OrderServiceImpl(IOrderRepo orderRepo, ICustomerRepo customerRepo, CustomerServiceImpl customerService) {
         this.orderRepo = orderRepo;
-        this.customerRepo = customerRepo;
+        this.customerService = customerService;
+
     }
 
     @Override
     @Transactional
-    public Order saveOrder(Long id, Order order) {
+    public Order saveOrder(Order order) {
+        Customer customer1=customerService.getOneCustomer(order.getCustomer_id().getId());
         order.setCustomer_id(order.getCustomer_id());
         order.setOrderName(order.getOrderName());
-        Customer customer1=customerRepo.getOne(order.getCustomer_id().getId());
-        if(customer1.getOrderAuthority().equals("HAS")){
-            return orderRepo.save(order);
-        }
-            return null;
+        order.setCustomer_id(customer1);
+        order.getCustomer_id().setName(customer1.getName());
+        order.setCustomer_id(customer1);
+        order.getCustomer_id().setOrderAuthority(customer1.getOrderAuthority());
+        return orderRepo.save(order);
     }
 
     @Override
@@ -37,7 +41,7 @@ public class OrderServiceImpl implements  IOrderService {
         Order order1=orderRepo.getOne(order.getId());
         order1.setCustomer_id(order.getCustomer_id());
         order1.setOrderName(order.getOrderName());
-        Customer customer1=customerRepo.getOne(order.getCustomer_id().getId());
+        Customer customer1=customerService.getOneCustomer(order.getCustomer_id().getId());
         if(customer1.getOrderAuthority().equals("HAS")){
             return orderRepo.save(order1);
         }
@@ -45,11 +49,10 @@ public class OrderServiceImpl implements  IOrderService {
     }
 
     @Override
-    public Boolean deleteCustomer(Long id) {
+    public Boolean deleteByOrderId(Long id) {
 
         orderRepo.deleteById(id);
-        Optional<Order> getOrder= orderRepo.findById(id);
-        if (!getOrder.isPresent()) {
+        if(orderRepo.findById(id).equals(id)) {
             return false;
         }
         return true;
