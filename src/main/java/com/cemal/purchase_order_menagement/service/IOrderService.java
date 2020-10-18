@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IOrderService {
     Order saveOrder(Order order);
-    Order updateCustomer(Long customer_id,Order order);
+    List<Order> updateOrder(Long customer_id,Order order);
     Boolean deleteByOrderId(Long id);
     List<Order> getAllOrder();
 }
