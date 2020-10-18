@@ -2,11 +2,16 @@ package com.cemal.purchase_order_menagement.entity;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.AllArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -22,7 +27,9 @@ public class Order {
     private String orderName;
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
-    private Customer customer_id;
+    @JoinColumn(name = "customer_id")
+    @JsonBackReference
+    private Customer customer;
+
 
 }
