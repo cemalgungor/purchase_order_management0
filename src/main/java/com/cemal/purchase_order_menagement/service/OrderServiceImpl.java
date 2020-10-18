@@ -14,15 +14,15 @@ import java.util.Optional;
 public class OrderServiceImpl implements  IOrderService {
     private final IOrderRepo orderRepo;
     private final CustomerServiceImpl customerService;
-    private  final IOrderedProductsRepo orderedProductsRepo;
+
     private  final  ICustomerRepo customerRepo;
 
-    public OrderServiceImpl(IOrderedProductsRepo orderedProductsRepo,
+    public OrderServiceImpl(
                             IOrderRepo orderRepo, ICustomerRepo customerRepo,
                             CustomerServiceImpl customerService) {
         this.orderRepo = orderRepo;
         this.customerService = customerService;
-        this.orderedProductsRepo=orderedProductsRepo;
+
         this.customerRepo=customerRepo;
     }
 

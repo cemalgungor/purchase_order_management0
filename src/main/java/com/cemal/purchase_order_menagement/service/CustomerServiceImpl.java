@@ -1,6 +1,7 @@
 package com.cemal.purchase_order_menagement.service;
 
 import com.cemal.purchase_order_menagement.entity.*;
+import com.cemal.purchase_order_menagement.exception.NotFoundAuthorityException;
 import com.cemal.purchase_order_menagement.repository.ICustomerRepo;
 import com.cemal.purchase_order_menagement.repository.IOrderRepo;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class CustomerServiceImpl implements  ICustomerService {
     public Customer saveCustomerWithOrder(Customer customer) {
         Customer customer1=customerRepo.getOne(customer.getId());
         if(customer1.getOrderAuthority().equals(OrderAuthority.HAS_NOT)){
-            return null;
+         throw new NotFoundAuthorityException("Has not authority with id " + customer.getId());
         }
         ArrayList<Order> order1 = new ArrayList<>();
       for (Order entity : customer.getOrder()) {
