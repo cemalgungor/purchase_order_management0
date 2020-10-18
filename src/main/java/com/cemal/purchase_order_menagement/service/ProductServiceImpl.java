@@ -3,6 +3,8 @@ package com.cemal.purchase_order_menagement.service;
 import com.cemal.purchase_order_menagement.entity.Product;
 
 import com.cemal.purchase_order_menagement.repository.IProductRepo;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +21,7 @@ public class ProductServiceImpl  implements   IProductService{
 
 
     @Override
+    @CacheEvict(cacheNames = "products", allEntries = true)
     public Product saveProduct(Product product) {
 
        product.setCategory(product.getCategory());
@@ -46,7 +49,7 @@ public class ProductServiceImpl  implements   IProductService{
         }
         return true;
     }
-
+    @Cacheable(cacheNames = "products", key = "#productId")
     @Override
     public List<Product> getAllProduct() {
         return productRepo.findAll();
